@@ -143,7 +143,7 @@ the skeleton dev packages. No Sanctum, Passport or permission packages. `compose
 | Concurrency (ADR-002) | The spec version witness has no column in `data-model.md`, so it is `UPDATE book SET available_copies=? WHERE id=? AND available_copies=<value read>`; 0 rows -> retry (up to 3) -> `409 BOOK_NOT_AVAILABLE`. `ck_book_available_range` is the last barrier. Returns use a relative `available_copies + 1` guarded by `returned_at IS NULL` |
 | Book edit | A `total_copies` change shifts `available_copies` by the same difference in SQL (`available_copies + (new_total - total_copies)`) |
 | Auth | JWT HS256 (`sub`, `role`, `iat`, `exp`), 8 h; Argon2id via `password_hash`; password minimum 8 characters (spec silent) |
-| Error body | Single `{code, message, details}` for everything, including 401/403/404/405/413/500 (no traces). Codes not in the contract: `UNAUTHENTICATED` (401, missing or invalid token), `METHOD_NOT_ALLOWED` (405), `INTERNAL_ERROR` (500). Messages are Spanish |
+| Error body | Single `{code, message, details}` for everything, including 401/403/404/405/413/500 (no traces). Codes not in the contract: `HTTP_ERROR` (other 4xx without a dedicated code; 400/415 map to `VALIDATION_ERROR`), `UNAUTHENTICATED` (401, missing or invalid token), `METHOD_NOT_ALLOWED` (405), `INTERNAL_ERROR` (500). Messages are Spanish |
 | Validation | Malformed input -> `422 VALIDATION_ERROR` with `details[{field, issue}]`; `size` > 50 is rejected with 422 (not clamped); more than 3 items in a loan body -> `VALIDATION_ERROR` |
 | `days_late` | Whole days rounded up (any overdue line shows at least 1); 0 when not overdue |
 | Overdue endpoint | Paginated like the others (`items,page,size,total`), default `size` 50; sorted by most days late |

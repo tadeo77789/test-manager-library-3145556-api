@@ -25,10 +25,10 @@ final class LoanController
     public function store(Request $request, LendBooksService $lend): JsonResponse
     {
         $v = Input::validate($request, [
-            'member_id' => 'required|string',
+            'member_id' => 'required|uuid',
             'items' => 'required|array|min:1|max:3',
             'items.*' => 'array',
-            'items.*.book_id' => 'required|string',
+            'items.*.book_id' => 'required|uuid',
         ]);
         $bookIds = array_map(static fn (array $i): string => $i['book_id'], array_values($v['items']));
         $loan = $lend->execute($v['member_id'], $bookIds, $request->attributes->get('claims')->userId);
@@ -42,7 +42,7 @@ final class LoanController
             'from' => 'sometimes|nullable|date_format:Y-m-d',
             'to' => 'sometimes|nullable|date_format:Y-m-d',
             'status' => 'sometimes|nullable|string',
-            'member_id' => 'sometimes|nullable|string',
+            'member_id' => 'sometimes|nullable|uuid',
         ], $request->query());
         $paging = Input::paging($request);
         $page = $list->execute(

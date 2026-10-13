@@ -37,7 +37,7 @@ final class BookController
 
     public function index(Request $request, SearchBooksService $search): JsonResponse
     {
-        $v = Input::validate($request, ['q' => 'sometimes|nullable|string', 'category_id' => 'sometimes|nullable|string'], $request->query());
+        $v = Input::validate($request, ['q' => 'sometimes|nullable|string', 'category_id' => 'sometimes|nullable|uuid'], $request->query());
         $paging = Input::paging($request);
         $page = $search->execute($v['q'] ?? null, $v['category_id'] ?? null, $paging['page'], $paging['size']);
 

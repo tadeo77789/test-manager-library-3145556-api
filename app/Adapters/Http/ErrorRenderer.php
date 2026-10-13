@@ -74,6 +74,7 @@ final class ErrorRenderer
                 $status === 404 => self::json(404, 'NOT_FOUND', 'El recurso solicitado no existe.'),
                 $status === 405 => self::json(405, 'METHOD_NOT_ALLOWED', 'Método no permitido.'),
                 $status === 413 => self::json(422, 'VALIDATION_ERROR', 'El archivo es demasiado grande.', [['field' => 'file', 'issue' => 'tamaño máximo 2 MB']]),
+                $status === 400 || $status === 415 => self::json(422, 'VALIDATION_ERROR', 'La solicitud no es válida.'),
                 $status >= 500 => self::json(500, 'INTERNAL_ERROR', 'Error interno del servidor.'),
                 default => self::json($status, 'HTTP_ERROR', 'La solicitud no pudo procesarse.'),
             };

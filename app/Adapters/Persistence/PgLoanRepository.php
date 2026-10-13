@@ -34,6 +34,7 @@ final class PgLoanRepository implements LoanRepository
             foreach ($changes as $change) {
                 $updated = DB::table('library.book')
                     ->where('id', $change->before->id)
+                    ->whereNull('deleted_at')
                     ->where('available_copies', $change->before->availableCopies)
                     ->update(['available_copies' => $change->after->availableCopies]);
                 if ($updated !== 1) {

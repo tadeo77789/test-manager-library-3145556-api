@@ -6,6 +6,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Let PHP accept up to 4 MB so the application (not PHP) answers 422 for covers over 2 MB.
+RUN echo "upload_max_filesize=4M" > /usr/local/etc/php/conf.d/uploads.ini \
+    && echo "post_max_size=8M" >> /usr/local/etc/php/conf.d/uploads.ini
 
 WORKDIR /var/www
 COPY composer.json composer.lock ./

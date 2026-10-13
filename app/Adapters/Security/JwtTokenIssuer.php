@@ -11,6 +11,7 @@ use App\Application\Ports\TokenIssuer;
 use App\Domain\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use RuntimeException;
 use Throwable;
 
 /** HS256 JWT, 8 hours, claims: sub (user id) and role only. */
@@ -21,6 +22,9 @@ final class JwtTokenIssuer implements TokenIssuer
         private readonly Clock $clock,
         private readonly int $ttlSeconds = 28800,
     ) {
+        if (strlen($secret) < 32) {
+            throw new RuntimeException('JWT_SECRET must be set and at least 32 bytes long.');
+        }
     }
 
     public function issue(User $user): IssuedToken

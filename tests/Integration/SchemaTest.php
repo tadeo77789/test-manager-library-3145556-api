@@ -20,6 +20,14 @@ final class SchemaTest extends IntegrationTestCase
         $this->assertSame([], DB::select("SELECT column_name FROM information_schema.columns WHERE table_schema = 'library' AND column_name IN ('created_at','updated_at','status','days_late')"));
     }
 
+    public function test_migrating_again_on_restart_is_a_no_op(): void
+    {
+        $this->assertSame(0, \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]));
+        $this->assertStringContainsString('Nothing to migrate', \Illuminate\Support\Facades\Artisan::output());
+        $this->assertSame(2, DB::table('public.migrations')->count());
+        $this->assertSame([], DB::select("SELECT 1 FROM information_schema.tables WHERE table_schema = 'library' AND table_name = 'migrations'"));
+    }
+
     public function test_all_timestamps_are_timestamptz(): void
     {
         $rows = DB::select("SELECT column_name, data_type FROM information_schema.columns WHERE table_schema = 'library' AND column_name IN ('loaned_at','due_at','returned_at','deleted_at')");

@@ -38,7 +38,7 @@
         <env name="DB_SCHEMA" value="library,public"/>
         <env name="JWT_SECRET" value="test-secret-test-secret-test-secret-0123456789"/>
         <env name="CORS_ORIGIN" value="http://localhost:5173"/>
-        <env name="COVERS_DIR" value="storage/framework/testing-covers"/>
+        <env name="COVERS_DIR" value="/tmp/ml-covers-test"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>

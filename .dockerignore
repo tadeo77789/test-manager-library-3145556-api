@@ -1,0 +1,6 @@
+.git
+.env
+vendor
+.phpunit.cache
+storage/logs/*
+storage/app/covers

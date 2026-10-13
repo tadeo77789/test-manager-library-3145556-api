@@ -1,5 +1,6 @@
 <?php
 
+use App\Adapters\Console\CreateAdminCommand;
 use App\Adapters\Http\ErrorRenderer;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -11,6 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         apiPrefix: 'api/v1',
     )
+    ->withCommands([CreateAdminCommand::class])
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->use([\App\Adapters\Http\Middleware\Cors::class]);
     })

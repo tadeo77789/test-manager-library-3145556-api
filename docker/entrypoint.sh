@@ -20,4 +20,5 @@ done
 
 php artisan library:create-admin --no-interaction
 
+export PHP_CLI_SERVER_WORKERS="${PHP_CLI_SERVER_WORKERS:-4}"
 exec php artisan serve --host=0.0.0.0 --port=8000 --no-reload

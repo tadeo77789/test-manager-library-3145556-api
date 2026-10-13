@@ -169,5 +169,5 @@ the skeleton dev packages. No Sanctum, Passport or permission packages. `compose
 | T-17 boot + admin | done | `ContractTest` (idempotent `library:create-admin` + login); real stack: `docker compose up` on an empty volume migrates, creates the admin, login 200, restart is a no-op; demo seeder ran end to end (3 overdue lines, report with rows) |
 | T-18 CHECKs | done | `SchemaTest` (`ck_book_total_positive`, `ck_user_role` reject bad inserts) |
 | T-19 architecture | done | `tests/Architecture/LayerDependencyTest.php` (fails on a forbidden `use`, proven by a self-test of the checker) |
-| RNF-2 over HTTP | partial | proven at repository and service level; no parallel-process HTTP test |
+| RNF-2 over HTTP | done | `scripts/rnf2-concurrency.sh` (two simultaneous `POST /loans` for the last copy against the running stack; 6 consecutive runs: exactly one 201 and one 409; the container runs `artisan serve` with 4 workers) plus the repository-level test in `AdaptersTest` |
 | RNF-1 (5 000 books < 300 ms) | pending | not measured; search uses the `(category_id, title)` index and `ILIKE` |

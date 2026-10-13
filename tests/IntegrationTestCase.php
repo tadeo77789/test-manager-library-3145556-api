@@ -17,7 +17,7 @@ abstract class IntegrationTestCase extends TestCase
         parent::setUp();
         if (! self::$migrated) {
             DB::unprepared('DROP SCHEMA IF EXISTS library CASCADE');
-            DB::unprepared('DROP TABLE IF EXISTS public.migrations');
+            DB::unprepared('DROP TABLE IF EXISTS public.migrations; DROP TABLE IF EXISTS library.migrations');
             Artisan::call('migrate', ['--force' => true]);
             self::$migrated = true;
         }
